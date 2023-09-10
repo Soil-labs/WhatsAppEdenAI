@@ -1,5 +1,5 @@
-import axios from "axios";
-import dotenv from "dotenv";
+const axios = require("axios");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const baseURL = process.env.NEXT_PUBLIC_GRAPHQL_URI;
@@ -11,8 +11,8 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(function (config) {
-  config.headers["Access-Control-Allow-Origin"] = "*";  
+  config.headers["Access-Control-Allow-Origin"] = "*";
   return config;
 }, null);
 
-export default apiClient;
+module.exports = apiClient;

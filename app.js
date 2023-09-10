@@ -17,23 +17,20 @@ const client = new twilio(accountSid, authToken);
     const app = express();
     const port = 3000;
 
-    
 
     app.use(cors())
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
 
-    // const url = await ngrok.connect(4000);
-    // console.log("server url: ", url)
- 
     app.post('/incoming', (req, res) => {
         const message = req.body;
-        console.log("msg ", message)
-
         const twiml = new MessagingResponse();
-        twiml.message(`I am busy now: `); //response message.
-        res.writeHead(200, { 'Content-Type': 'text/xml' });
-        res.end(twiml.toString());
+        if (message.Body == "/start") {
+            twiml.message('Welcome to Eden Personal Coach \nWrite the 3 digit number to connect with your Eden account');
+            res.writeHead(200, { 'Content-Type': 'text/xml' });
+            res.end(twiml.toString());
+        }
+
     });
 
     app.listen(port, () => {

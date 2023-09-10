@@ -7,13 +7,13 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const {
     identifyCategoryAndReply, //understand this function
-  } = require("./backEnd_api_func.js");
-  
+} = require("./backEnd_api_func.js");
+
 
 const {
     checkIfFirstMessageWhatsAPPConnection,
     findIfMessageIsAResponse,
-    
+
 } = require("./whatsapp_func.js");
 
 dotenv.config();
@@ -33,6 +33,10 @@ const client = new twilio(accountSid, authToken);
     app.use(cors())
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
+
+    app.get("/", (req, res) => {
+        res.status(200).json("Home Route Reached")
+    })
 
     app.post('/incoming', async (req, res) => {
         const message = req.body;

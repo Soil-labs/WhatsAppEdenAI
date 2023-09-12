@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-const twilio = require('twilio');
 const cors = require("cors");
 const express = require('express');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
@@ -18,10 +17,8 @@ const {
 
 dotenv.config();
 
-const accountSid = process.env.TwILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = new twilio(accountSid, authToken);
-
+const { TwILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
+const client = require("twilio")(TwILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 
 (async () => {
@@ -36,6 +33,29 @@ const client = new twilio(accountSid, authToken);
 
     app.get("/", (req, res) => {
         res.status(200).json("Home Route Reached")
+    });
+
+    //this code is for sending whatsapp message to a user
+    //sample variables to send
+    //to: whatsapp:+2348063348577
+    //from: whatsapp:+14155238886
+    //body: the message to send
+    app.post('/sending', async (req, res) => {
+        const { from, to, body } = req.body;
+        console.log("params ", from, to, body)
+        try {
+            const message = await client.messages.create({
+                body,
+                from,
+                to
+            });
+            console.log(message);
+            res.status(200).json("OK")
+        } catch (error) {
+            res.status(500).json(error.message)
+            console.log("error from sending message", error);
+        }
+
     })
 
     app.post('/incoming', async (req, res) => {

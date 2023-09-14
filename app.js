@@ -24,7 +24,7 @@ const client = require("twilio")(TwILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 (async () => {
 
     const app = express();
-    const port = process.env.PORT || 5000;
+    const port = process.env.PORT || 4000;
 
 
     app.use(cors())
@@ -49,6 +49,13 @@ const client = require("twilio")(TwILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
                 from,
                 to
             });
+            // this is how you sent a message to a user
+            // const message_2 = await client.messages.create({
+            //     body: "heey my friend awesomedfjosdfo skjdfoks jdfokjs d",
+            //     from: "whatsapp:+14155238886",
+            //     to: "whatsapp:+48666237829"
+            // });
+    
             console.log(message);
             res.status(200).json("OK")
         } catch (error) {
@@ -77,6 +84,8 @@ const client = require("twilio")(TwILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             text: message.Body,
             whatsAppNumber: whatsAppNumber
         }
+
+
         // let response = await checkIfFirstMessageWhatsAPPConnection(msg);
         // console.log("res = ", response)
         // if (response.done == true) {
@@ -88,6 +97,9 @@ const client = require("twilio")(TwILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
         //     res.writeHead(200, { 'Content-Type': 'text/xml' });
         //     res.end(twiml.toString());
         // }
+
+        
+
 
 
         // findIfMessageIsAResponse(msg);
